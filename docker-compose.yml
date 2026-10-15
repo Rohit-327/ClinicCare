@@ -8,8 +8,6 @@ services:
       POSTGRES_DB: hospital_db
       POSTGRES_USER: hospital_admin
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the root .env file}
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -21,8 +19,6 @@ services:
   redis:
     image: redis:7-alpine
     container_name: cliniccare_redis
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
 
@@ -39,8 +35,6 @@ services:
       WA_VERIFY_TOKEN: ${WA_VERIFY_TOKEN:?Set WA_VERIFY_TOKEN in the root .env file}
       ENVIRONMENT: production
       PORT: 8000
-    ports:
-      - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -58,7 +52,6 @@ services:
     container_name: cliniccare_frontend
     ports:
       - "80:80"
-      - "3000:80"
     depends_on:
       - backend
 
@@ -75,8 +68,6 @@ services:
       - N8N_HOST=localhost
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-    ports:
-      - "5678:5678"
     volumes:
       - n8n_data:/home/node/.n8n
 
